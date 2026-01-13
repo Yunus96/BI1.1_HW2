@@ -59,6 +59,20 @@ app.get("/hotels/:hotelName", async (req, res) => {
   }
 });
 
+app.delete("/hotel/delete/:id", async (req, res) => {
+  try {
+    const hotel = await Hotel.findByIdAndDelete(req.params.id);
+
+    if (!hotel) {
+      return res.status(404).json({ error: "Hotel not found" });
+    }
+
+    res.json({ message: "Hotel deleted successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
